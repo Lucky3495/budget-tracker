@@ -1,5 +1,5 @@
 use chrono::{DateTime, Local};
-use crate::{Money, Input};
+use crate::{Money, Args};
 
 pub struct Row {
     timestamp: DateTime<Local>,
@@ -9,7 +9,7 @@ pub struct Row {
 }
 
 impl Row {
-    pub fn from_input(input: Input) -> Row {
+    pub fn from_input(input: Args) -> Row {
         Row {
             timestamp: Local::now(),
             category: input.category,

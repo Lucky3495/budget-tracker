@@ -1,14 +1,14 @@
 use crate::Money;
 
 #[derive(Debug)]
-pub struct Input {
+pub struct Args {
     pub money: Money,
     pub category: String,
     pub comment: Option<String>
 }
 
-impl Input {
-    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Input, String> {
+impl Args {
+    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Args, String> {
         // Ignore the first argument (usually the file name or something)
         args.next();
 
@@ -37,7 +37,7 @@ impl Input {
         // capture the comment if any
         let comment = args.next();
 
-        Ok(Input {
+        Ok(Args {
             money,
             category,
             comment,

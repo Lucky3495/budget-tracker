@@ -5,13 +5,13 @@ use std::io::Write;
 use std::path::Path;
 
 pub use core::money::Money;
-pub use core::row::Row;
-pub use core::input::Input;
+pub use core::args::Row;
+pub use core::input::Args;
 pub use core::config::Config;
 
 const HEADER: &str = "DATE,MONEY,CATEGORY,COMMENT";
 
-pub fn log(input: Input, config: &Config) -> Result<(), std::io::Error> {
+pub fn log(input: Args, config: &Config) -> Result<(), std::io::Error> {
     let path = &config.file_path;
 
     let row = Row::from_input(input);

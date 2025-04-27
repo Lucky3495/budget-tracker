@@ -1,8 +1,8 @@
-use budget_tracker::{Input, Config, log};
+use budget_tracker::{Args, Config, log};
 use std::{env, process};
 
 fn main() {
-    let input_data = Input::build(env::args()).unwrap_or_else(|err| {
+    let input_data = Args::build(env::args()).unwrap_or_else(|err| {
         eprintln!("Cannot parse arguments: {err}");
         process::exit(1);
     });
