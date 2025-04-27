@@ -1,4 +1,4 @@
-use budget_tracker::Input;
+use budget_tracker::{Input, Config, log};
 use std::{env, process};
 
 fn main() {
@@ -8,4 +8,11 @@ fn main() {
     });
 
     println!("{:?}", input_data);
+
+    let config = Config {
+        file_path: "test.csv".to_string()
+    };
+
+    log(input_data, &config).unwrap();
+
 }

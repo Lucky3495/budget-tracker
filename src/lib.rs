@@ -1,9 +1,7 @@
-#[derive(Debug)]
-pub struct Input {
-    pub money: Money,
-    pub category: String,
-    pub comment: Option<String>
-}
+use std::fs::{File, OpenOptions};
+use std::io::{self, Write};
+use std::path::Path;
+use chrono::{DateTime, Local};
 
 #[derive(Debug)]
 pub struct Money {
@@ -23,6 +21,13 @@ impl Money {
             fraction: ((value.fract() * 100.0).round()) as u8,
         })
     }
+}
+
+#[derive(Debug)]
+pub struct Input {
+    pub money: Money,
+    pub category: String,
+    pub comment: Option<String>
 }
 
 impl Input {
@@ -63,3 +68,60 @@ impl Input {
     }
 }
 
+pub struct Config {
+    pub file_path: String,
+}
+
+struct Row {
+    timestamp: DateTime<Local>,
+    category: String,
+    money: Money,
+    comment: Option<String>,
+}
+
+impl Row {
+    fn from_input(input: Input) -> Row {
+        Row {
+            timestamp: Local::now(),
+            category: input.category,
+            money: input.money,
+            comment: input.comment,
+        }
+    }
+
+    fn to_string(self) -> String {
+        return format!(
+            "{},{}.{},{},{}",
+            self.timestamp.format("%Y-%m-%d"),
+            self.money.whole,
+            self.money.fraction,
+            self.category,
+            match self.comment {
+                Some(v) => v,
+                None => "".to_string(),
+            }
+        )
+    }
+}
+
+const HEADER: &str = "DATE,MONEY,CATEGORY,COMMENT";
+
+pub fn log(input: Input, config: &Config) -> Result<(), std::io::Error> {
+    let path = &config.file_path;
+
+    let row = Row::from_input(input);
+
+    let file_exists = Path::new(path).exists();
+
+    let mut file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)?;
+
+    if !file_exists {
+        writeln!(file, "{}", HEADER)?;
+    }
+
+    writeln!(file, "{}",row.to_string())?;
+    Ok(())
+}
