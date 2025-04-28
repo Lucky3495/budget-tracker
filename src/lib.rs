@@ -5,7 +5,7 @@ use std::io::Write;
 use std::path::Path;
 
 pub use core::money::Money;
-pub use core::args::Row;
+pub use core::row::Row;
 pub use core::input::Args;
 pub use core::config::Config;
 

@@ -2,7 +2,7 @@ use crate::Money;
 
 #[derive(Debug)]
 pub struct Args {
-    pub money: Money,
+    pub money: f64,
     pub category: String,
     pub comment: Option<String>
 }
@@ -13,14 +13,9 @@ impl Args {
         args.next();
 
         // check that a value is given
-        let money_str = match args.next() {
-            Some(v) => v,
+        let money = match args.next() {
+            Some(v) => v.parse().unwrap(),
             None => Err("Expected a number as money but got nothing.")?,
-        };
-
-        let money = match Money::from_str(&money_str) {
-            Ok(v) => v,
-            Err(_) => Err(format!("Expected a number as money but got {}.", money_str))?
         };
 
         // check that a category is given

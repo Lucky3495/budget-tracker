@@ -13,7 +13,7 @@ impl Row {
         Row {
             timestamp: Local::now(),
             category: input.category,
-            money: input.money,
+            money: Money::from_f64(input.money),
             comment: input.comment,
         }
     }
